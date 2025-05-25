@@ -1,0 +1,23 @@
+{
+    "name": "LF.NetcodeForGameObject",
+    "rootNamespace": "",
+    "references": [
+        "Unity.Netcode.Runtime",
+        "Unity.Collections"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [
+        {
+            "name": "com.unity.netcode.gameobjects",
+            "expression": "",
+            "define": "NETCODE_EXPANSION"
+        }
+    ],
+    "noEngineReferences": false
+}
