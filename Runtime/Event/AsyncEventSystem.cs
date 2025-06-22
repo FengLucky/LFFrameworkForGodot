@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Cysharp.Threading.Tasks;
-using UnityEngine;
+using GDLog;
 
 namespace LF.Runtime
 {
@@ -10,7 +11,7 @@ namespace LF.Runtime
         /// <summary>
         /// 
         /// </summary>
-        private readonly Dictionary<T, HashSet<Func<IEventArgs,UniTask>>> _eventActionDict = new();
+        private readonly Dictionary<T, HashSet<Func<object,UniTask>>> _eventActionDict = new();
 
         private bool _inSend;
         private Action _onAfterSend;
@@ -25,7 +26,7 @@ namespace LF.Runtime
         /// </summary>
         /// <param name="eventId"> 事件 id </param>
         /// <param name="onReceive"> 触发事件时回调 </param>
-        public void Register(T eventId, Func<IEventArgs,UniTask> onReceive)
+        public void Register(T eventId, Func<object,UniTask> onReceive)
         {
             if (!CanModifyDict())
             {
@@ -34,20 +35,20 @@ namespace LF.Runtime
 
             if (onReceive == null)
             {
-                Debug.LogError("事件回调不能为空");
+                GLog.Error("事件回调不能为空");
                 return;
             }
 
             if (!_eventActionDict.ContainsKey(eventId))
             {
-                _eventActionDict.Add(eventId, new HashSet<Func<IEventArgs,UniTask>>());
+                _eventActionDict.Add(eventId, new HashSet<Func<object,UniTask>>());
             }
 
             var set = _eventActionDict[eventId];
 
             if (!set.Add(onReceive))
             {
-                Debug.LogError($"重复注册监听事件回调方法:{eventId}");
+                GLog.Error($"重复注册监听事件回调方法:{eventId}");
             }
         }
 
@@ -56,7 +57,7 @@ namespace LF.Runtime
         /// </summary>
         /// <param name="eventId"> 事件 id </param>
         /// <param name="onReceive"> 注销的事件回调 </param>
-        public void UnRegister(T eventId, Func<IEventArgs,UniTask> onReceive)
+        public void UnRegister(T eventId, Func<object,UniTask> onReceive)
         {
             if (!CanModifyDict())
             {
@@ -100,7 +101,7 @@ namespace LF.Runtime
         /// </summary>
         /// <param name="eventId"> 事件 id </param>
         /// <param name="args"> 事件参数(可选) </param>
-        public async UniTask Send(T eventId, IEventArgs args = null)
+        public async UniTask Send(T eventId, object args = null)
         {
             if (_eventActionDict.TryGetValue(eventId, out var set))
             {
@@ -113,7 +114,7 @@ namespace LF.Runtime
                     }
                     catch (Exception e)
                     {
-                        Debug.LogException(e);
+                        GLog.Exception(e);
                     }
                 }
                 _inSend = false;
@@ -125,7 +126,7 @@ namespace LF.Runtime
         {
             if (_inSend)
             {
-                Debug.LogError("正在执行监听事件，不可新增或删除监听");
+                GLog.Error("正在执行监听事件，不可新增或删除监听");
             }
 
             return true;

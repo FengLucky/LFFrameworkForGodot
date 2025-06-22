@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿using Godot;
 
 namespace LF.Runtime
 {
@@ -6,7 +6,7 @@ namespace LF.Runtime
     {
         public static Vector3 NoY(this Vector3 vec)
         {
-            return new Vector3(vec.x, 0, vec.z);
+            return new Vector3(vec.X, 0, vec.Z);
         }
     }
 }

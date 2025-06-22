@@ -1,4 +1,3 @@
-using UnityEngine;
 namespace Config
 {
 	public static class LFExternalTypeUtil

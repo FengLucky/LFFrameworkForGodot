@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace LF.Runtime
@@ -34,7 +35,7 @@ namespace LF.Runtime
 
         public static T RandomOne<T>(this IList<T> list)
         {
-            return list[UnityEngine.Random.Range(0, list.Count)];
+            return list[Random.Shared.Next(0, list.Count)];
         }
 
         public static T RandomOneWithWeight<T>(this IList<T> list, List<int> weights)
@@ -50,7 +51,7 @@ namespace LF.Runtime
 
         public static T RandomOneWithWeight<T>(this IList<T> list, List<int> weights,int totalWeight)
         {
-            var random = UnityEngine.Random.Range(0, totalWeight + 1);
+            var random = Random.Shared.Next(0, totalWeight + 1);
             for (var i = 0; i < weights.Count; i++)
             {
                 if (random <= weights[i])

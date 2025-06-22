@@ -1,5 +1,5 @@
 ﻿using System;
-using UnityEngine;
+using GDLog;
 
 namespace LF.Runtime
 {
@@ -16,7 +16,7 @@ namespace LF.Runtime
             }
             catch (Exception e)
             {
-               Debug.LogException(e);
+               GLog.Exception(e);
             }
             return default;
         }
@@ -32,7 +32,7 @@ namespace LF.Runtime
             }
             catch (Exception e)
             {
-                Debug.LogException(e);
+                GLog.Exception(e);
             }
             return default;
         }
@@ -48,7 +48,7 @@ namespace LF.Runtime
             }
             catch (Exception e)
             {
-                Debug.LogException(e);
+                GLog.Exception(e);
             }
             return default;
         }
@@ -64,7 +64,7 @@ namespace LF.Runtime
             }
             catch (Exception e)
             {
-                Debug.LogException(e);
+                GLog.Exception(e);
             }
             return default;
         }
@@ -80,7 +80,7 @@ namespace LF.Runtime
             }
             catch (Exception e)
             {
-                Debug.LogException(e);
+                GLog.Exception(e);
             }
             return default;
         }
@@ -96,7 +96,7 @@ namespace LF.Runtime
             }
             catch (Exception e)
             {
-                Debug.LogException(e);
+                GLog.Exception(e);
             }
             return default;
         }
@@ -112,7 +112,7 @@ namespace LF.Runtime
             }
             catch (Exception e)
             {
-                Debug.LogException(e);
+                GLog.Exception(e);
             }
             return default;
         }
@@ -128,7 +128,7 @@ namespace LF.Runtime
             }
             catch (Exception e)
             {
-                Debug.LogException(e);
+                GLog.Exception(e);
             }
             return default;
         }

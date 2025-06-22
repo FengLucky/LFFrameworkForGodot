@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
-using UnityEngine;
+using GDLog;
 
 namespace LF.Runtime
 {
@@ -22,13 +22,13 @@ namespace LF.Runtime
 
             if (state.Control != this)
             {
-                Debug.LogError($"状态控制器不是当前控制器，无法注册:{state.Type}");
+                GLog.Error($"状态控制器不是当前控制器，无法注册:{state.Type}");
                 return;
             }
             
             if (!_stateMap.TryAdd(state.Type, state))
             {
-                Debug.LogError($"状态机重复注册状态:{state.Type}");
+                GLog.Error($"状态机重复注册状态:{state.Type}");
                 return;
             }
 
@@ -36,7 +36,7 @@ namespace LF.Runtime
             {
                 if (CurState != null)
                 {
-                    Debug.LogError($"状态机不能有多个默认状态:{state.Type}");
+                    GLog.Error($"状态机不能有多个默认状态:{state.Type}");
                     return;
                 }
 
@@ -49,19 +49,19 @@ namespace LF.Runtime
         {
             if (!_stateMap.TryGetValue(type,out var state))
             {
-                Debug.LogError($"{type} 状态未注册");
+                GLog.Error($"{type} 状态未注册");
                 return;
             }
 
             if (LastState != null && !LastState.CanSwitchTo(state))
             {
-                Debug.LogError($"{LastState.Type} 状态不能切换到 {type} 状态");
+                GLog.Error($"{LastState.Type} 状态不能切换到 {type} 状态");
                 return;
             }
             
             if (CurState != null && !CurState.CanSwitchFrom(state))
             {
-                Debug.LogError($"{CurState.Type} 状态不能切换到 {type} 状态");
+                GLog.Error($"{CurState.Type} 状态不能切换到 {type} 状态");
                 return;
             }
             

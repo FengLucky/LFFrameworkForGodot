@@ -1,13 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using UnityEngine;
+using System.Text.Json;
+using GDLog;
+using Godot;
 
 namespace LF.Runtime
 {
     public static class Archive
     {
-        public static readonly string ArchivePath = Path.Combine(Application.persistentDataPath,"Archive");
+        public static readonly string ArchivePath = Path.Combine(ProjectSettings.GlobalizePath("user://"),"Archive");
         public static readonly string QuickArchivePath = Path.Combine(ArchivePath,"Quick/quick.json");
 
         /// <summary>
@@ -100,25 +102,23 @@ namespace LF.Runtime
         {
             if (!File.Exists(filePath))
             {
-                Debug.LogError("不存在存档文件:" + filePath);
+                GLog.Error("不存在存档文件:" + filePath);
                 return null;
             }
 
             var json = File.ReadAllText(filePath);
-
             try
             {
-                var archiveData = JsonUtility.FromJson<T>(json);
-
+                var archiveData = JsonSerializer.Deserialize<T>(json);
                 if (archiveData == null)
                 {
-                    Debug.LogError("反序列化 json 文件为空");
+                    GLog.Error("反序列化 json 文件为空");
                     return null;
                 }
 
                 if (!archiveData.IsArchive)
                 {
-                    Debug.LogError("不是存档文件:" + filePath);
+                    GLog.Error("不是存档文件:" + filePath);
                     return null;
                 }
 
@@ -126,7 +126,7 @@ namespace LF.Runtime
             }
             catch (Exception e)
             {
-                Debug.LogError($"反序列化 json 文件失败:\n{e.Message}{e.StackTrace}");
+                GLog.Error($"反序列化 json 文件失败:\n{e.Message}{e.StackTrace}");
                 return null;
             }
         }
@@ -137,7 +137,7 @@ namespace LF.Runtime
 
             if (string.IsNullOrEmpty(directory))
             {
-                Debug.LogError("存储路径为空");
+                GLog.Error("存储路径为空");
                 return;
             }
 
@@ -146,7 +146,7 @@ namespace LF.Runtime
                 Directory.CreateDirectory(directory);
             }
 
-            File.WriteAllText(path, JsonUtility.ToJson(data));
+            File.WriteAllText(path, JsonSerializer.Serialize(data));
         }
     }
 }
