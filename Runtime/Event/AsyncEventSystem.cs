@@ -4,7 +4,7 @@ using System.Diagnostics;
 using Cysharp.Threading.Tasks;
 using GDLog;
 
-namespace LF.Runtime
+namespace LF
 {
     public class AsyncEventSystem<T> where T : Enum
     {

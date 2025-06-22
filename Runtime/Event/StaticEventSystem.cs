@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LF.Runtime
+namespace LF
 {
     public abstract class StaticEventSystem<T> where T : Enum
     {

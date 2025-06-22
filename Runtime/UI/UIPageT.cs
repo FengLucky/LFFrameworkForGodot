@@ -1,4 +1,4 @@
-﻿namespace LF.Runtime
+﻿namespace LF
 {
     public class UIPageT<T>:UIPage where T : PageHolder
     {

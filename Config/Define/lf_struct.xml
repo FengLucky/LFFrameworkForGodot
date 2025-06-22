@@ -1,0 +1,37 @@
+﻿<?xml version="1.0"?>
+<module
+        xmlns="bean"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="bean ~bean.xsd"
+        name="">
+    
+    <bean name="CfgVector2" sep="," valueType="true">
+        <var name="x" type="float"/>
+        <var name="y" type="float"/>
+        <mapper target="client" codeTarget="cs-bin,cs-dotnet-json,cs-simple-json">
+            <option name="type" value="UnityEngine.Vector2"/>
+            <option name="constructor" value="Config.LFExternalTypeUtil.NewVector2"/>
+        </mapper>
+    </bean>
+
+    <bean name="CfgVector3" sep="," valueType="true">
+        <var name="x" type="float"/>
+        <var name="y" type="float"/>
+        <var name="z" type="float"/>
+        <mapper target="client" codeTarget="cs-bin,cs-dotnet-json,cs-simple-json">
+            <option name="type" value="UnityEngine.Vector3"/>
+            <option name="constructor" value="Config.LFExternalTypeUtil.NewVector3"/>
+        </mapper>
+    </bean>
+
+    <bean name="CfgColor" sep="," valueType="true">
+        <var name="r" type="int#range[0,255]"/>
+        <var name="g" type="int#range[0,255]"/>
+        <var name="b" type="int#range[0,255]"/>
+        <var name="a" type="int#range[0,255]"/>
+        <mapper target="client" codeTarget="cs-bin,cs-dotnet-json,cs-simple-json">
+            <option name="type" value="UnityEngine.Color"/>
+            <option name="constructor" value="Config.LFExternalTypeUtil.NewColor"/>
+        </mapper>
+    </bean>
+</module>

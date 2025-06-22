@@ -4,7 +4,7 @@ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 
-namespace LF.Runtime
+namespace LF
 {
     [RequireComponent(typeof(CanvasGroup))]
     public class UIPage : UIMonoBehaviour

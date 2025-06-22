@@ -1,7 +1,7 @@
 using System.Runtime.CompilerServices;
 using Godot;
 
-namespace LF.Runtime;
+namespace LF;
 
 public static class GodotObjectExpansion
 {

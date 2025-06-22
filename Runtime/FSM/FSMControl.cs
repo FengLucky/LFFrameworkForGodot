@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using GDLog;
 
-namespace LF.Runtime
+namespace LF
 {
     public class FSMControl<TState,TEnum> 
         where TState : FSMStateBase<TState,TEnum>

@@ -2,7 +2,7 @@
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-namespace LF.Runtime
+namespace LF
 {
     [RequireComponent(typeof(Canvas))]
     public class UIWindow : UIMonoBehaviour

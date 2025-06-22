@@ -1,0 +1,7 @@
+<module
+        xmlns="table"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="table ~table.xsd"
+        name="">
+    <table name="PageTable" value="PageBean" input="Excel/界面配置.xlsx"/>
+</module>

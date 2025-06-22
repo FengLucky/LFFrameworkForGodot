@@ -6,7 +6,7 @@ using UnityEngine;
 using YooAsset;
 using Object = UnityEngine.Object;
 
-namespace LF.Runtime
+namespace LF
 {
     [ClassName("通用界面")]
     public partial class PageHolder

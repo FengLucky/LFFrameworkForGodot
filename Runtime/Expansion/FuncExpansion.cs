@@ -1,136 +1,155 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using GDLog;
 
-namespace LF.Runtime
+namespace LF;
+
+public static class FuncExpansion
 {
-    public static class FuncExpansion
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static T SafeInvoke<T>(Func<T> func)
     {
-        public static T SafeInvoke<T>(Func<T> func)
+        try
         {
-            try
+            if (func != null)
             {
-                if (func != null)
-                {
-                    return func();
-                }
+                return func();
             }
-            catch (Exception e)
-            {
-               GLog.Exception(e);
-            }
-            return default;
+        }
+        catch (Exception e)
+        {
+            GLog.Exception(e);
         }
 
-        public static T SafeInvoke<T1, T>(Func<T1, T> func, T1 arg1)
+        return default;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static T SafeInvoke<T1, T>(Func<T1, T> func, T1 arg1)
+    {
+        try
         {
-            try
+            if (func != null)
             {
-                if (func != null)
-                {
-                    return func(arg1);
-                }
+                return func(arg1);
             }
-            catch (Exception e)
-            {
-                GLog.Exception(e);
-            }
-            return default;
         }
-        
-        public static T SafeInvoke<T1, T2, T>(Func<T1, T2, T> func, T1 arg1, T2 arg2)
+        catch (Exception e)
         {
-            try
-            {
-                if (func != null)
-                {
-                    return func(arg1, arg2);
-                }
-            }
-            catch (Exception e)
-            {
-                GLog.Exception(e);
-            }
-            return default;
+            GLog.Exception(e);
         }
-        
-        public static T SafeInvoke<T1, T2, T3, T>(Func<T1, T2, T3, T> func, T1 arg1, T2 arg2, T3 arg3)
+
+        return default;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static T SafeInvoke<T1, T2, T>(Func<T1, T2, T> func, T1 arg1, T2 arg2)
+    {
+        try
         {
-            try
+            if (func != null)
             {
-                if (func != null)
-                {
-                    return func(arg1, arg2, arg3);
-                }
+                return func(arg1, arg2);
             }
-            catch (Exception e)
-            {
-                GLog.Exception(e);
-            }
-            return default;
         }
-        
-        public static T SafeInvoke<T1, T2, T3, T4, T>(Func<T1, T2, T3, T4, T> func, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
+        catch (Exception e)
         {
-            try
-            {
-                if (func != null)
-                {
-                    return func(arg1, arg2, arg3, arg4);
-                }
-            }
-            catch (Exception e)
-            {
-                GLog.Exception(e);
-            }
-            return default;
+            GLog.Exception(e);
         }
-        
-        public static T SafeInvoke<T1, T2, T3, T4, T5, T>(Func<T1, T2, T3, T4, T5, T> func, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
+
+        return default;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static T SafeInvoke<T1, T2, T3, T>(Func<T1, T2, T3, T> func, T1 arg1, T2 arg2, T3 arg3)
+    {
+        try
         {
-            try
+            if (func != null)
             {
-                if (func != null)
-                {
-                    return func(arg1, arg2, arg3, arg4, arg5);
-                }
+                return func(arg1, arg2, arg3);
             }
-            catch (Exception e)
-            {
-                GLog.Exception(e);
-            }
-            return default;
         }
-        
-        public static T SafeInvoke<T1, T2, T3, T4, T5, T6, T>(Func<T1, T2, T3, T4, T5, T6, T> func, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6)
+        catch (Exception e)
         {
-            try
-            {
-                if (func != null)
-                {
-                    return func(arg1, arg2, arg3, arg4, arg5,arg6);
-                }
-            }
-            catch (Exception e)
-            {
-                GLog.Exception(e);
-            }
-            return default;
+            GLog.Exception(e);
         }
-        
-        public static T SafeInvoke<T1, T2, T3, T4, T5, T6, T7, T>(Func<T1, T2, T3, T4, T5, T6, T7, T> func, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7)
+
+        return default;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static T SafeInvoke<T1, T2, T3, T4, T>(Func<T1, T2, T3, T4, T> func, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
+    {
+        try
         {
-            try
+            if (func != null)
             {
-                if (func != null)
-                {
-                    return func(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
-                }
+                return func(arg1, arg2, arg3, arg4);
             }
-            catch (Exception e)
-            {
-                GLog.Exception(e);
-            }
-            return default;
         }
+        catch (Exception e)
+        {
+            GLog.Exception(e);
+        }
+
+        return default;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static T SafeInvoke<T1, T2, T3, T4, T5, T>(Func<T1, T2, T3, T4, T5, T> func, T1 arg1, T2 arg2, T3 arg3,
+        T4 arg4, T5 arg5)
+    {
+        try
+        {
+            if (func != null)
+            {
+                return func(arg1, arg2, arg3, arg4, arg5);
+            }
+        }
+        catch (Exception e)
+        {
+            GLog.Exception(e);
+        }
+
+        return default;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static T SafeInvoke<T1, T2, T3, T4, T5, T6, T>(Func<T1, T2, T3, T4, T5, T6, T> func, T1 arg1, T2 arg2,
+        T3 arg3, T4 arg4, T5 arg5, T6 arg6)
+    {
+        try
+        {
+            if (func != null)
+            {
+                return func(arg1, arg2, arg3, arg4, arg5, arg6);
+            }
+        }
+        catch (Exception e)
+        {
+            GLog.Exception(e);
+        }
+
+        return default;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static T SafeInvoke<T1, T2, T3, T4, T5, T6, T7, T>(Func<T1, T2, T3, T4, T5, T6, T7, T> func, T1 arg1,
+        T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7)
+    {
+        try
+        {
+            if (func != null)
+            {
+                return func(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+            }
+        }
+        catch (Exception e)
+        {
+            GLog.Exception(e);
+        }
+
+        return default;
     }
 }

@@ -1,6 +1,6 @@
 using System;
 
-namespace LF.Runtime
+namespace LF
 {
     public class FSMStateBase<TState,TEnum> 
         where TState:FSMStateBase<TState,TEnum>  

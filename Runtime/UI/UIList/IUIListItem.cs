@@ -1,7 +1,5 @@
-﻿namespace LF.Runtime
+﻿namespace LF;
+public interface IUIListItem<TData>
 {
-    public interface IUIListItem<TData>
-    {
-        void Refresh(TData data);
-    }
+    void Refresh(TData data);
 }

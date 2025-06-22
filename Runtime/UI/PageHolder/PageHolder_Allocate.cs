@@ -4,7 +4,7 @@ using System.Linq;
 using Config;
 using UnityEngine;
 
-namespace LF.Runtime
+namespace LF
 {
     public partial class PageHolder
     {
