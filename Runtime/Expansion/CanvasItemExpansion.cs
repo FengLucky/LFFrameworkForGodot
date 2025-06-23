@@ -2,21 +2,8 @@
 using Godot;
 
 namespace LF;
-
 public static class CanvasItemExpansion
 {
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static void Show(this CanvasItem item)
-    {
-        SafeSetVisible(item, true);
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static void Hide(this CanvasItem item)
-    {
-        SafeSetVisible(item, false);
-    }
-
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void InvertVisible(this CanvasItem item)
     {

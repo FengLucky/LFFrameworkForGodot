@@ -1,8 +1,8 @@
-﻿using System;
-using Config;
-
-namespace LF;
+﻿namespace LF;
 public sealed class Localization
 {
-       
+    public static void Init()
+    {
+        
+    }
 }

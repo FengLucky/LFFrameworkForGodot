@@ -1,4 +1,7 @@
-﻿namespace LF;
+﻿using System;
+using GDLog;
+
+namespace LF;
 
 public abstract class Manager<T> where T : Manager<T>, new()
 {
@@ -16,6 +19,14 @@ public abstract class Manager<T> where T : Manager<T>, new()
                     if (_instance == null)
                     {
                         _instance = new T();
+                        try
+                        {
+                            _instance.OnInit();
+                        }
+                        catch (Exception e)
+                        {
+                            GLog.Exception(e);
+                        }
                     }
                 }
             }
@@ -23,4 +34,6 @@ public abstract class Manager<T> where T : Manager<T>, new()
             return _instance;
         }
     }
+    
+    protected virtual void OnInit(){}
 }

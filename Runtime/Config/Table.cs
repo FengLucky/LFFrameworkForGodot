@@ -6,7 +6,9 @@ using System.Text;
 using System.Text.Json.Nodes;
 using Cysharp.Threading.Tasks;
 using GDLog;
+using Godot;
 using Luban;
+using FileAccess = Godot.FileAccess;
 
 namespace Config;
 
@@ -67,27 +69,15 @@ public partial class Tables
 
     private static JsonNode LoadJson(string file)
     {
-        var path = Path.Combine(JsonPathRoot, file + ".json");
-#if TOOLS
-        var json = File.ReadAllText(path);
-#else
-        var handle = YooAssets.LoadAssetSync<TextAsset>(path);
-        var json = handle.GetAssetObject<TextAsset>().text;
-        handle.Release();
-#endif
+        var path = $"{JsonPathRoot}/{file}.json";
+        var json = FileAccess.GetFileAsString(path);
         return JsonNode.Parse(json);
     }
 
     private static ByteBuf LoadByteBuf(string file)
     {
-        var path = Path.Combine(BytePathRoot, file + ".bytes");
-#if TOOLS
-        var bytes = File.ReadAllBytes(path);
-#else
-        var handle = YooAssets.LoadAssetSync<TextAsset>(path);
-        var bytes = handle.GetAssetObject<TextAsset>().bytes;
-        handle.Release();
-#endif
+        var path = $"{BytePathRoot}/{file}.bytes";
+        var bytes = FileAccess.GetFileAsBytes(path);
         return new ByteBuf(bytes);
     }
 

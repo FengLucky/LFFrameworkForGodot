@@ -1,5 +1,5 @@
-cd /d %~dp0
 @echo off
+cd /d %~dp0
 dotnet Luban\Luban.dll ^
 -t client ^
 --conf luban.conf ^
