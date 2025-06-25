@@ -1,5 +1,7 @@
 ﻿using Config;
 using Cysharp.Threading.Tasks;
+using GDLog;
+using Godot;
 
 namespace LF;
 
@@ -14,6 +16,7 @@ public static class LFFramework
     {
         param ??= new LFInitializationParam();
         await InitPackage(param.YooAssetPackageName);
+        InitLog();
         Tables.LoadTables();
         Localization.Init();
     }
@@ -21,5 +24,23 @@ public static class LFFramework
     private static async UniTask InitPackage(string packageName)
     {
 
+    }
+
+    private static void InitLog()
+    {
+        var fileLogAgent = new FileLogAgent(); // File Logging
+        fileLogAgent.Cleanup(2); // Keep 2 log files, delete the rest
+        GLog.AddAgent(fileLogAgent);
+
+        if (EngineDebugger.IsActive())
+        {
+            var debuggerLogAgent = new DebuggerLogAgent(); // Output log information to Godot's debugger panel
+            GLog.AddAgent(debuggerLogAgent);
+        }
+        var godotLogAgent = new GodotLogAgent(); // Output log information to Godot's output panel
+        GLog.AddAgent(godotLogAgent);
+
+        var builtinLogAgent = new BuiltinLogAgent(); // Built-in Logging
+        GLog.AddAgent(builtinLogAgent);
     }
 }
