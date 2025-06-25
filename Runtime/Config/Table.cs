@@ -14,18 +14,17 @@ namespace Config;
 
 public partial class Tables
 {
-    private static bool _watched = false;
+    private static bool _watched;
+    private static bool _initialized;
     private static FileSystemWatcher _watcher;
     private static readonly List<string> ChangedList = new();
 
     private static readonly string BytePathRoot = "res://Data/Bin";
     private static readonly string JsonPathRoot = "res://Data/Json";
-
-    private static bool _inited = false;
-
+    
     public static void EditorInit()
     {
-        if (!_inited)
+        if (!_initialized)
         {
             LoadTables(false);
         }
@@ -34,14 +33,16 @@ public partial class Tables
     public static void LoadTables(bool watchChange = true)
     {
         var tablesCtor = typeof(Tables).GetMethod("LoadData", BindingFlags.NonPublic | BindingFlags.Static);
-        var loaderReturnType = tablesCtor.GetParameters()[0].ParameterType.GetGenericArguments()[1];
-        // 根据 Tables 的构造函数的Loader的返回值类型决定使用json还是ByteBuf Loader
-        System.Delegate loader = loaderReturnType == typeof(ByteBuf)
-            ? new System.Func<string, ByteBuf>(LoadByteBuf)
-            : new System.Func<string, JsonNode>(LoadJson);
-        tablesCtor.Invoke(null, new object[] { loader });
+        if (tablesCtor != null)
+        {
+            var loaderReturnType = tablesCtor.GetParameters()[0].ParameterType.GetGenericArguments()[1];
+            // 根据 Tables 的构造函数的Loader的返回值类型决定使用json还是ByteBuf Loader
+            System.Delegate loader = loaderReturnType == typeof(ByteBuf)
+                ? new System.Func<string, ByteBuf>(LoadByteBuf)
+                : new System.Func<string, JsonNode>(LoadJson);
+            tablesCtor.Invoke(null, [loader]);
 #if TOOLS
-            _inited = true;
+            _initialized = true;
             if (watchChange)
             {
                 if (!_watched)
@@ -65,6 +66,7 @@ public partial class Tables
                 }
             }
 #endif
+        }
     }
 
     private static JsonNode LoadJson(string file)
@@ -83,37 +85,43 @@ public partial class Tables
 
     private static void JsonChanged(object sender, FileSystemEventArgs e)
     {
-        var name = e.Name.Replace(".json", "");
-        ApplyChange(name);
+        if (e.Name != null)
+        {
+            var name = e.Name.Replace(".json", "");
+            ApplyChange(name).Forget();
+        }
     }
 
     private static void ByteChanged(object sender, FileSystemEventArgs e)
     {
-        var name = e.Name.Replace(".bytes", "");
-        ApplyChange(name);
+        if (e.Name != null)
+        {
+            var name = e.Name.Replace(".bytes", "");
+            ApplyChange(name).Forget();
+        }
     }
 
-    private static async void ApplyChange(string name)
+    private static async UniTaskVoid ApplyChange(string name)
     {
 #if TOOLS
-            await UniTask.SwitchToMainThread();
-            ChangedList.Add(name);
-            int count = ChangedList.Count;
-            await UniTask.WaitForSeconds(0.1f);
-            if (count == ChangedList.Count)
+        await UniTask.SwitchToMainThread();
+        ChangedList.Add(name);
+        int count = ChangedList.Count;
+        await UniTask.WaitForSeconds(0.1f);
+        if (count == ChangedList.Count)
+        {
+            var distinct = ChangedList.Distinct().ToList();
+            var sb = new StringBuilder();
+            foreach (var file in distinct)
             {
-                var distinct = ChangedList.Distinct().ToList();
-                var sb = new StringBuilder();
-                foreach (var file in distinct)
-                {
-                    sb.AppendLine($"{file}、");
-                }
-
-                sb.Remove(sb.Length - 1, 1);
-                GLog.DebugInfo($"配置文件更新:{'{'}{sb}{'}'}");
-                IncrementalUpdate(distinct);
-                ChangedList.Clear();
+                sb.AppendLine($"{file}、");
             }
+
+            sb.Remove(sb.Length - 1, 1);
+            GLog.DebugInfo($"配置文件更新:{'{'}{sb}{'}'}");
+            IncrementalUpdate(distinct);
+            ChangedList.Clear();
+        }
 #endif
     }
 }
