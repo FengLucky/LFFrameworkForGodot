@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using GDLog;
 
-namespace LF
-{
-    public class FSMControl<TState,TEnum> 
+namespace LF;
+ public class FSMControl<TState,TEnum> 
         where TState : FSMStateBase<TState,TEnum>
         where TEnum : Enum
     {
@@ -105,4 +104,3 @@ namespace LF
             CurState?.OnUpdate(deltaTime);
         }
     }
-}

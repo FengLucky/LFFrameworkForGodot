@@ -28,8 +28,6 @@ public class GlobalProcessManager:Manager<GlobalProcessManager>
     }
     private readonly List<ProcessItem<IProcess>> _processList = new(16);
     private readonly List<ProcessItem<IPhysicsProcess>> _physicsProcessList = new(16);
-    private readonly List<ProcessItem<IProcess>> _processesTemp = new(16);
-    private readonly List<ProcessItem<IPhysicsProcess>> _physicsProcessesTemp = new(16);
     protected override void OnInit()
     {
         base.OnInit();
@@ -80,30 +78,30 @@ public class GlobalProcessManager:Manager<GlobalProcessManager>
     
     private void OnProcess(double delta)
     {
-        
-        _processesTemp.AddRange(_processList);
-        for (int i = 0; i < _processesTemp.Count; i++)
+        using var list = ListPool<ProcessItem<IProcess>>.GetItem();
+        list.Value.AddRange(_processList);
+        for (int i = 0; i < list.Value.Count; i++)
         {
             try
             {
-                _processesTemp[i].Process.OnProcess(delta);
+                list.Value[i].Process.OnProcess(delta);
             }
             catch (Exception e)
             {
                 GLog.Exception(e);
             }
         }
-        _processesTemp.Clear();
     }
     
     private void OnPhysicsProcess(double delta)
     {
-        _physicsProcessesTemp.AddRange(_physicsProcessList);
-        for (int i = 0; i < _physicsProcessesTemp.Count; i++)
+        using var list = ListPool<ProcessItem<IPhysicsProcess>>.GetItem();
+        list.Value.AddRange(_physicsProcessList);
+        for (int i = 0; i < list.Value.Count; i++)
         {
             try
             {
-                _physicsProcessesTemp[i].Process.OnPhysicsProcess(delta);
+                list.Value[i].Process.OnPhysicsProcess(delta);
             }
             catch (Exception e)
             {

@@ -18,6 +18,7 @@ public static class LFFramework
         await InitPackage(param.YooAssetPackageName);
         InitLog();
         Tables.LoadTables();
+        PageManager.Instantiate();
         Localization.Init();
     }
 

@@ -7,7 +7,7 @@ namespace LF;
 public static class FuncExpansion
 {
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T SafeInvoke<T>(Func<T> func)
+    public static T SafeInvoke<T>(this Func<T> func)
     {
         try
         {
@@ -25,7 +25,7 @@ public static class FuncExpansion
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T SafeInvoke<T1, T>(Func<T1, T> func, T1 arg1)
+    public static T SafeInvoke<T1, T>(this Func<T1, T> func, T1 arg1)
     {
         try
         {
@@ -43,7 +43,7 @@ public static class FuncExpansion
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T SafeInvoke<T1, T2, T>(Func<T1, T2, T> func, T1 arg1, T2 arg2)
+    public static T SafeInvoke<T1, T2, T>(this Func<T1, T2, T> func, T1 arg1, T2 arg2)
     {
         try
         {
@@ -61,7 +61,7 @@ public static class FuncExpansion
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T SafeInvoke<T1, T2, T3, T>(Func<T1, T2, T3, T> func, T1 arg1, T2 arg2, T3 arg3)
+    public static T SafeInvoke<T1, T2, T3, T>(this Func<T1, T2, T3, T> func, T1 arg1, T2 arg2, T3 arg3)
     {
         try
         {
@@ -79,7 +79,7 @@ public static class FuncExpansion
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T SafeInvoke<T1, T2, T3, T4, T>(Func<T1, T2, T3, T4, T> func, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
+    public static T SafeInvoke<T1, T2, T3, T4, T>(this Func<T1, T2, T3, T4, T> func, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
     {
         try
         {
@@ -97,7 +97,7 @@ public static class FuncExpansion
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T SafeInvoke<T1, T2, T3, T4, T5, T>(Func<T1, T2, T3, T4, T5, T> func, T1 arg1, T2 arg2, T3 arg3,
+    public static T SafeInvoke<T1, T2, T3, T4, T5, T>(this Func<T1, T2, T3, T4, T5, T> func, T1 arg1, T2 arg2, T3 arg3,
         T4 arg4, T5 arg5)
     {
         try
@@ -116,7 +116,7 @@ public static class FuncExpansion
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T SafeInvoke<T1, T2, T3, T4, T5, T6, T>(Func<T1, T2, T3, T4, T5, T6, T> func, T1 arg1, T2 arg2,
+    public static T SafeInvoke<T1, T2, T3, T4, T5, T6, T>(this Func<T1, T2, T3, T4, T5, T6, T> func, T1 arg1, T2 arg2,
         T3 arg3, T4 arg4, T5 arg5, T6 arg6)
     {
         try
@@ -135,7 +135,7 @@ public static class FuncExpansion
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T SafeInvoke<T1, T2, T3, T4, T5, T6, T7, T>(Func<T1, T2, T3, T4, T5, T6, T7, T> func, T1 arg1,
+    public static T SafeInvoke<T1, T2, T3, T4, T5, T6, T7, T>(this Func<T1, T2, T3, T4, T5, T6, T7, T> func, T1 arg1,
         T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7)
     {
         try

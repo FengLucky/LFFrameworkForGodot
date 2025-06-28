@@ -8,32 +8,29 @@ public abstract class Manager<T> where T : Manager<T>, new()
     private static T _instance;
     private static readonly object Lock = new();
 
-    public static T Instance
+    public static T Instance => Instantiate();
+
+    public static T Instantiate()
     {
-        get
+        if (_instance == null)
         {
-            if (_instance == null)
+            lock (Lock)
             {
-                lock (Lock)
+                if (_instance == null)
                 {
-                    if (_instance == null)
+                    _instance = new T();
+                    try
                     {
-                        _instance = new T();
-                        try
-                        {
-                            _instance.OnInit();
-                        }
-                        catch (Exception e)
-                        {
-                            GLog.Exception(e);
-                        }
+                        _instance.OnInit();
+                    }
+                    catch (Exception e)
+                    {
+                        GLog.Exception(e);
                     }
                 }
             }
-
-            return _instance;
         }
+        return _instance;
     }
-    
     protected virtual void OnInit(){}
 }
