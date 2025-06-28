@@ -18,13 +18,17 @@ public class PageManager : Manager<PageManager>
     protected override void OnInit()
     {
         base.OnInit();
+        var pageRoot = new Control();
+        pageRoot.Name = "PageRoot";
         for (var i = 0; i < (int)PageLayer.Count; i++)
         {
             var layer = new Control();
             layer.Name = $"{(PageLayer)i}Layer";
+            pageRoot.AddChild(layer);
             _layers.Add((PageLayer)i,layer);
             _layerHolders.Add((PageLayer)i,new());   
         }
+        (Engine.Singleton.GetMainLoop() as SceneTree)?.Root.CallDeferred("add_child",pageRoot);
     }
 
     public void Open(PageHolder holder)

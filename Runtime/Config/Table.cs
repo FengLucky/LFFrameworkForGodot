@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Text.Json.Nodes;
+using System.Text.Json;
 using Cysharp.Threading.Tasks;
 using GDLog;
 using Godot;
@@ -39,7 +39,7 @@ public partial class Tables
             // 根据 Tables 的构造函数的Loader的返回值类型决定使用json还是ByteBuf Loader
             System.Delegate loader = loaderReturnType == typeof(ByteBuf)
                 ? new System.Func<string, ByteBuf>(LoadByteBuf)
-                : new System.Func<string, JsonNode>(LoadJson);
+                : new System.Func<string, JsonElement>(LoadJson);
             tablesCtor.Invoke(null, [loader]);
 #if TOOLS
             _initialized = true;
@@ -49,13 +49,13 @@ public partial class Tables
                 {
                     if (loaderReturnType == typeof(ByteBuf))
                     {
-                        _watcher = new(BytePathRoot);
+                        _watcher = new(ProjectSettings.GlobalizePath(BytePathRoot));
                         _watcher.Filter = "*.bytes";
                         _watcher.Changed += ByteChanged;
                     }
                     else
                     {
-                        _watcher = new(JsonPathRoot);
+                        _watcher = new(ProjectSettings.GlobalizePath(JsonPathRoot));
                         _watcher.Filter = "*.json";
                         _watcher.Changed += JsonChanged;
                     }
@@ -69,11 +69,11 @@ public partial class Tables
         }
     }
 
-    private static JsonNode LoadJson(string file)
+    private static JsonElement LoadJson(string file)
     {
         var path = $"{JsonPathRoot}/{file}.json";
         var json = FileAccess.GetFileAsString(path);
-        return JsonNode.Parse(json);
+        return JsonDocument.Parse(json).RootElement;
     }
 
     private static ByteBuf LoadByteBuf(string file)
