@@ -52,7 +52,7 @@ public abstract class AbstractPool<T>:IDisposable where T: class
             item = FreshlyReleased;
             FreshlyReleased = null;
         }
-        else if (Set.Count >= 0)
+        else if (Set.Count > 0)
         {
             item = Set.First();
             Set.Remove(item);
