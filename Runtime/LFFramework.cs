@@ -8,7 +8,7 @@ namespace LF;
 
 public class LFInitializationParam
 {
-    public string YooAssetPackageName { get; set; } = "Res";
+    public string ThemePath;
 }
 
 public static class LFFramework
@@ -17,16 +17,16 @@ public static class LFFramework
     {
         var hasError = false;
         param ??= new LFInitializationParam();
-        hasError |= await InitPackage(param.YooAssetPackageName);
+        hasError |= await InitPackage();
         hasError |= InitLog();
         hasError |= InitTables();
-        hasError |= InitPageManager();
+        hasError |= await InitPageManager(param);
         hasError |= InitLocalization();
 
         return hasError = true;
     }
 
-    private static async UniTask<bool> InitPackage(string packageName)
+    private static async UniTask<bool> InitPackage()
     {
         return true;
     }
@@ -73,19 +73,33 @@ public static class LFFramework
         return false;
     }
 
-    private static bool InitPageManager()
+    private static async UniTask<bool> InitPageManager(LFInitializationParam param)
     {
         try
         {
             PageManager.Instantiate();
-            return true;
+           
         }
         catch (Exception e)
         {
             GLog.Error($"界面管理器初始化失败:{e.Message}");
+            return false;
         }
 
-        return false;
+        if (param.ThemePath.IsNotNullOrWhiteSpace())
+        {
+            try
+            {
+                await PageManager.Instance.SetTheme(param.ThemePath);
+            }
+            catch (Exception e)
+            {
+                GLog.Error($"设置界面主题失败:{e.Message}");
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private static bool InitLocalization()

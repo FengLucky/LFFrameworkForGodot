@@ -9,7 +9,7 @@
         <var name="x" type="float"/>
         <var name="y" type="float"/>
         <mapper target="client" codeTarget="cs-bin,cs-dotnet-json,cs-simple-json">
-            <option name="type" value="UnityEngine.Vector2"/>
+            <option name="type" value="Godot.Vector2"/>
             <option name="constructor" value="Config.LFExternalTypeUtil.NewVector2"/>
         </mapper>
     </bean>
@@ -19,7 +19,7 @@
         <var name="y" type="float"/>
         <var name="z" type="float"/>
         <mapper target="client" codeTarget="cs-bin,cs-dotnet-json,cs-simple-json">
-            <option name="type" value="UnityEngine.Vector3"/>
+            <option name="type" value="Godot.Vector3"/>
             <option name="constructor" value="Config.LFExternalTypeUtil.NewVector3"/>
         </mapper>
     </bean>
@@ -30,7 +30,7 @@
         <var name="b" type="int#range[0,255]"/>
         <var name="a" type="int#range[0,255]"/>
         <mapper target="client" codeTarget="cs-bin,cs-dotnet-json,cs-simple-json">
-            <option name="type" value="UnityEngine.Color"/>
+            <option name="type" value="Godot.Color"/>
             <option name="constructor" value="Config.LFExternalTypeUtil.NewColor"/>
         </mapper>
     </bean>

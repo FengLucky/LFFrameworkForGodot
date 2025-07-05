@@ -11,6 +11,8 @@ dotnet Luban\Luban.dll ^
 -x outputDataDir=..\Data\Json ^
 -d const-cs ^
 -x const-cs.outputDataDir=..\Data\GenConst ^
+-x tableImporter.name=lf ^
+-x tableImporter.tableMeta=TableMeta.ini ^
 --validationFailAsError
 pause
 if %errorlevel% neq 0 exit /b %errorlevel%

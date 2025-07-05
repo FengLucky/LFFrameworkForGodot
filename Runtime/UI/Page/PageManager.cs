@@ -9,7 +9,8 @@ public class PageManager : Manager<PageManager>
 {
     public event Action<PageHolder> OnPageOpened;
     public event Action<PageHolder> OnPageClosed;
-    public event Action<PageHolder> OnCurrentUIPageChanged; 
+    public event Action<PageHolder> OnCurrentUIPageChanged;
+    public static Control PageRoot { get; private set; }
     
     private readonly Dictionary<PageLayer, Control> _layers = new();
     private readonly Dictionary<PageLayer, List<PageHolder>> _layerHolders = new();
@@ -20,6 +21,7 @@ public class PageManager : Manager<PageManager>
         base.OnInit();
         var pageRoot = new Control();
         pageRoot.Name = "PageRoot";
+        PageRoot = pageRoot;
         for (var i = 0; i < (int)PageLayer.Count; i++)
         {
             var layer = new Control();
@@ -104,6 +106,11 @@ public class PageManager : Manager<PageManager>
         }
 
         return UniTask.WhenAll(tasks);
+    }
+
+    public async UniTask SetTheme(string themePath)
+    {
+        PageRoot.Theme = await ResourceLoader.Singleton.LoadAsync<Theme>(themePath);
     }
 
     private async UniTaskVoid WaitOpen(PageHolder holder)

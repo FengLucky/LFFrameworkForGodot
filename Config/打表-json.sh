@@ -10,6 +10,8 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 -x outputDataDir=../Data/Json \
 -d const-cs \
 -x const-cs.outputDataDir=../Data/GenConst \
+-x tableImporter.name=lf \
+-x tableImporter.tableMeta=TableMeta.ini \
 --validationFailAsError) || {
   pause
   exit 1

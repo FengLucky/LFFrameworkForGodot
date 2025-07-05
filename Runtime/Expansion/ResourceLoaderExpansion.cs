@@ -9,7 +9,7 @@ public static class ResourceLoaderExpansion
     public static T Instantiate<T>(this ResourceLoaderInstance loader, string path,
         string typeHint = "", ResourceLoader.CacheMode cacheMode = ResourceLoader.CacheMode.Reuse) where T : Node
     {
-        if (!FileAccess.FileExists(path))
+        if (path.IsNotValidResource())
         {
             GLog.Error($"{path} 资源不存在");
             return null;
@@ -29,7 +29,7 @@ public static class ResourceLoaderExpansion
         string typeHint = "", bool useSubThreads = false, ResourceLoader.CacheMode cacheMode = ResourceLoader.CacheMode.Reuse,
         CancellationToken cancellationToken = default) where T:Resource
     {
-        if (!FileAccess.FileExists(path))
+        if (path.IsNotValidResource())
         {
             GLog.Error($"{path} 资源不存在");
             return null;
