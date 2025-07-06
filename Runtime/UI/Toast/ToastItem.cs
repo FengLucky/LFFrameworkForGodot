@@ -1,5 +1,4 @@
-﻿using GDLog;
-using Godot;
+﻿using Godot;
 
 namespace LF;
 
