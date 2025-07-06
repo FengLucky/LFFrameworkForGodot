@@ -44,27 +44,26 @@ namespace LF;
             }
         }
 
-        public virtual void SwitchState(TEnum type)
+        public virtual bool SwitchState(TEnum type)
         {
             if (!_stateMap.TryGetValue(type,out var state))
             {
                 GLog.Error($"{type} 状态未注册");
-                return;
+                return false;
             }
 
             if (LastState != null && !LastState.CanSwitchTo(state))
             {
-                GLog.Error($"{LastState.Type} 状态不能切换到 {type} 状态");
-                return;
+                return false;
             }
             
             if (CurState != null && !CurState.CanSwitchFrom(state))
             {
-                GLog.Error($"{CurState.Type} 状态不能切换到 {type} 状态");
-                return;
+                return false;
             }
             
             SwitchStateAsync(state).Forget();
+            return true;
         }
 
         public bool CanSwitchTo(TEnum type)
