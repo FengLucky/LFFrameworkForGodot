@@ -21,11 +21,15 @@ public class PageManager : Manager<PageManager>
         base.OnInit();
         var pageRoot = new Control();
         pageRoot.Name = "PageRoot";
-        PageRoot = pageRoot;
+        pageRoot.FullRect();
+        pageRoot.ProcessMode = Node.ProcessModeEnum.Always;
+        pageRoot.MouseFilter = Control.MouseFilterEnum.Ignore;
         for (var i = 0; i < (int)PageLayer.Count; i++)
         {
             var layer = new Control();
             layer.Name = $"{(PageLayer)i}Layer";
+            layer.FullRect();
+            layer.MouseFilter = Control.MouseFilterEnum.Ignore;
             pageRoot.AddChild(layer);
             _layers.Add((PageLayer)i,layer);
             _layerHolders.Add((PageLayer)i,new());   
@@ -45,11 +49,14 @@ public class PageManager : Manager<PageManager>
         {
             var root = new Control();
             root.Name = $"{holder.Bean.ResPath.Replace("res://", "")}";
+            root.FullRect();
+            root.MouseFilter = Control.MouseFilterEnum.Ignore;
             if (!holder.Create(root))
             {
                 root.QueueFree();
                 return;
             }
+            _layers[holder.Bean.Layer].AddChild(root);
         }
         
         holder.Root.MoveToFront();
