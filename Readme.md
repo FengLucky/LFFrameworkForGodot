@@ -259,3 +259,6 @@ loadingPage.Close();
 ## Toast
 `Toast` 静态工具类
 - `Show` 显示一个提示信息
+```csharp
+Toast.Show("提示信息");
+```
