@@ -9,11 +9,11 @@
 2. 项目->项目设置->插件->启用 `LFFramework`
 3. 项目->工具->LFFramework->安装依赖
    
-    [GodotSharpLog](https://github.com/FengLucky/GodotSharpLog) : `Godot CSharp` 日志插件
+	[GodotSharpLog](https://github.com/FengLucky/GodotSharpLog) : `Godot CSharp` 日志插件
 
-    [UniTaskForGodot](https://github.com/FengLucky/UniTaskForGodot) : `UniTask` 的 `Godot` 适配
+	[UniTaskForGodot](https://github.com/FengLucky/UniTaskForGodot) : `UniTask` 的 `Godot` 适配
 
-    [LubanExtend](https://github.com/FengLucky/LubanExtend) : `Luban` 配置工具的扩展应用
+	[LubanExtend](https://github.com/FengLucky/LubanExtend) : `Luban` 配置工具的扩展应用
 
 4. 项目->工具->打表
 
@@ -51,7 +51,7 @@ var bean = Tables.PageTable.GetOrDefault(1);
 ```csharp
 public enmu UIEvent
 {
-    PageOpen,
+	PageOpen,
 }
 
 public class UIEventSystem : StaticEventSystem<UIEvent>;
@@ -75,50 +75,50 @@ UIEventSystem.Send(UIEvent.PageOpen, page);
 ```csharp
 public enum PlayerState
 {
-    Idle,
-    Run
+	Idle,
+	Run
 }
 
 public abstract class PlayerStateBase : FSMStateBase<PlayerStateBase, PlayerState>
 {
-    protected PlayerStateBase(FSMControl<PlayerStateBase, PlayerState> control, PlayerState type) : base(control, type)
-    {
-    }
+	protected PlayerStateBase(FSMControl<PlayerStateBase, PlayerState> control, PlayerState type) : base(control, type)
+	{
+	}
 }
 
 public class IdelState : PlayerStateBase
 {
-    public IdelState(FSMControl<PlayerStateBase, PlayerState> control) : base(control, PlayerState.Idle)
-    {
-    }
+	public IdelState(FSMControl<PlayerStateBase, PlayerState> control) : base(control, PlayerState.Idle)
+	{
+	}
 
-    public override void OnEnter()
-    {
-        base.OnEnter();
-        Control.SwitchState(PlayerState.Run);
-    }
+	public override void OnEnter()
+	{
+		base.OnEnter();
+		Control.SwitchState(PlayerState.Run);
+	}
 }
 
 public class RunState : PlayerStateBase
 {
-    public RunState(FSMControl<PlayerStateBase, PlayerState> control) : base(control, PlayerState.Run)
-    {
-    }
+	public RunState(FSMControl<PlayerStateBase, PlayerState> control) : base(control, PlayerState.Run)
+	{
+	}
 
-    public override void OnEnter()
-    {
-        base.OnEnter();
-        GD.Print("当前状态为 Run");
-    }
+	public override void OnEnter()
+	{
+		base.OnEnter();
+		GD.Print("当前状态为 Run");
+	}
 }
 
 public class PlayerStateControl : FSMControl<PlayerStateBase, PlayerState>
 {
-    public void Init()
-    {
-        RegisterState(new IdelState(this),true); // 默认状态
-        RegisterState(new RunState(this));
-    }
+	public void Init()
+	{
+		RegisterState(new IdelState(this),true); // 默认状态
+		RegisterState(new RunState(this));
+	}
 }
 ```
 ## 单例
@@ -126,7 +126,7 @@ public class PlayerStateControl : FSMControl<PlayerStateBase, PlayerState>
 ```csharp
 public class GameManager : Manager<GameManager>
 {
-    public bool GameStarted { get; private set; }
+	public bool GameStarted { get; private set; }
 }
 
 GD.Print("游戏状态：" + GameManager.Instance.GameStarted);
@@ -146,29 +146,29 @@ godot 中如果脚本重写了 _Process 或者 _PhysicsProcess 方法，那么�
 ```csharp
 public partial class ProcessSample : Node,IProcess,IPhysicsProcess
 {
-    public override void _EnterTree()
-    {
-        base._EnterTree();
-        this.EnableProcess();
-        this.EnablePhysicsProcess();
-    }
+	public override void _EnterTree()
+	{
+		base._EnterTree();
+		this.EnableProcess();
+		this.EnablePhysicsProcess();
+	}
 
-    public void OnProcess(double delta)
-    {
-        GD.Print("Process");
-    }
+	public void OnProcess(double delta)
+	{
+		GD.Print("Process");
+	}
 
-    public void OnPhysicsProcess(double delta)
-    {
-        GD.Print("PhysicsProcess");
-    }
+	public void OnPhysicsProcess(double delta)
+	{
+		GD.Print("PhysicsProcess");
+	}
 
-    public override void _ExitTree()
-    {
-        base._ExitTree();
-        this.DisableProcess();
-        this.DisablePhysicsProcess();
-    }
+	public override void _ExitTree()
+	{
+		base._ExitTree();
+		this.DisableProcess();
+		this.DisablePhysicsProcess();
+	}
 }
 ```
 ## 对象池
@@ -193,14 +193,14 @@ private void OnProcess(double delta)
   list.Value.AddRange(_processList);
   for (int i = 0; i < list.Value.Count; i++)
   {
-      try
-      {
-          list.Value[i].Process.OnProcess(delta);
-      }
-      catch (Exception e)
-      {
-          GLog.Exception(e);
-      }
+	  try
+	  {
+		  list.Value[i].Process.OnProcess(delta);
+	  }
+	  catch (Exception e)
+	  {
+		  GLog.Exception(e);
+	  }
   }
 }
 ```
