@@ -2,10 +2,10 @@
 <module
         xmlns="bean"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="bean ~bean.xsd"
+        xsi:schemaLocation="bean ~struct.xsd"
         name="">
     
-    <bean name="CfgVector2" sep="," valueType="true">
+    <bean name="Vector2Bean" sep="," valueType="true">
         <var name="x" type="float"/>
         <var name="y" type="float"/>
         <mapper target="client" codeTarget="cs-bin,cs-dotnet-json,cs-simple-json">
@@ -14,7 +14,7 @@
         </mapper>
     </bean>
 
-    <bean name="CfgVector3" sep="," valueType="true">
+    <bean name="Vector3Bean" sep="," valueType="true">
         <var name="x" type="float"/>
         <var name="y" type="float"/>
         <var name="z" type="float"/>
@@ -24,7 +24,7 @@
         </mapper>
     </bean>
 
-    <bean name="CfgColor" sep="," valueType="true">
+    <bean name="ColorBean" sep="," valueType="true">
         <var name="r" type="int#range[0,255]"/>
         <var name="g" type="int#range[0,255]"/>
         <var name="b" type="int#range[0,255]"/>

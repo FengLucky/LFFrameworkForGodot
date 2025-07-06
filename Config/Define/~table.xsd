@@ -4,7 +4,13 @@
             <xs:sequence>
                 <xs:element name="table" maxOccurs="unbounded" minOccurs="0">
                     <xs:complexType>
-                        <xs:attribute type="xs:string" name="name" use="required"/>
+                        <xs:attribute type="xs:string" name="name" use="required">
+                            <xs:simpleType>
+                                <xs:restriction base="xs:string">
+                                    <xs:pattern value=".*Table"/>
+                                </xs:restriction>
+                            </xs:simpleType>
+                        </xs:attribute>
                         <xs:attribute type="xs:string" name="value" use="required"/>
                         <xs:attribute type="xs:string" name="input" use="required"/>
                         <xs:attribute type="xs:boolean" name="readSchemaFromFile" use="optional"/>
