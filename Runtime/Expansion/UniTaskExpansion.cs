@@ -24,7 +24,7 @@ public static class UniTaskExpansion
         });
     }
     
-    public static void OnComplete<T>(this UniTask<T> task, Action<T> callback)
+    public static void OnCompleted<T>(this UniTask<T> task, Action<T> callback)
     {
         var awaiter = task.GetAwaiter();
         task.GetAwaiter().OnCompleted(() =>
@@ -36,7 +36,7 @@ public static class UniTaskExpansion
         });
     }
     
-    public static void OnComplete<T>(this UniTask<T> task, Action<UniTaskStatus,T> callback)
+    public static void OnCompleted<T>(this UniTask<T> task, Action<UniTaskStatus,T> callback)
     {
         var awaiter = task.GetAwaiter();
         task.GetAwaiter().OnCompleted(() =>
