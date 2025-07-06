@@ -10,6 +10,13 @@ public partial class UIPage : Control
 {
     [Export]
     protected Array<Button> CloseButton;
+    [Export,ExportGroup("动画")]
+    protected AnimationPlayer AnimationPlayer;
+    [Export,ExportGroup("动画")]
+    protected string ShowAnimationName;
+    [Export,ExportGroup("动画")]
+    protected string CloseAnimationName;
+    
     public PageHolder Holder { get; private set; }
 
     private CanvasGroup _canvasGroup;
@@ -55,6 +62,15 @@ public partial class UIPage : Control
         try
         {
             OnOpen();
+        }
+        catch (Exception e)
+        {
+            GLog.Exception(e);
+        }
+        
+        try
+        {
+            OnShowAnimation().Forget();
         }
         catch (Exception e)
         {
@@ -143,12 +159,28 @@ public partial class UIPage : Control
     /// 进入可视状态时播放动画
     /// </summary>
     /// <returns></returns>
-    protected virtual UniTask OnShowAnimation(CancellationToken cancellationToken = default) => UniTask.CompletedTask;
+    protected virtual UniTask OnShowAnimation(CancellationToken cancellationToken = default)
+    {
+        if (ShowAnimationName.IsNotNullOrWhiteSpace() && AnimationPlayer.IsValid())
+        {
+            return AnimationPlayer.PlayAndWait(ShowAnimationName, cancellationToken);
+        }
+        return UniTask.CompletedTask;
+    }
+
     /// <summary>
     /// 关闭之前播放动画
     /// </summary>
     /// <returns></returns>
-    protected virtual UniTask OnCloseAnimation()=> UniTask.CompletedTask;
+    protected virtual UniTask OnCloseAnimation()
+    {
+        if (CloseAnimationName.IsNotNullOrWhiteSpace() && AnimationPlayer.IsValid())
+        {
+            return AnimationPlayer.PlayAndWait(CloseAnimationName);
+        }
+        return UniTask.CompletedTask;
+    }
+
     /// <summary>
     /// 关闭界面后销毁前回调
     /// </summary>
