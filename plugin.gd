@@ -130,7 +130,7 @@ func _install_or_update_git_repo(url:String,target:String)->bool:
 	if dir.dir_exists(full_path):
 		await self._execute_with_pipe("git",["-C",full_path,"pull"],"fatal:");
 	else:
-		await self._execute_with_pipe("git",["clone",url,full_path,"--squash"],"fatal:")
+		await self._execute_with_pipe("git",["clone","--depth","1",url,full_path],"fatal:")
 
 	if not dir.dir_exists(full_path):
 		printerr("git 仓库 "+ target +" 下载失败")
@@ -197,7 +197,7 @@ func _deep_copy_directory(from:String,to:String,dir:DirAccess = null,cover:bool 
 			return true;
 			
 	if not dir.dir_exists(to):
-		if dir.make_dir(to) != OK:
+		if dir.make_dir_recursive(to) != OK:
 			return false;		
 			
 	for directory in dir.get_directories_at(from):					
