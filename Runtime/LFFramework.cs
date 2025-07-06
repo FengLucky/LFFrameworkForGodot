@@ -23,12 +23,12 @@ public static class LFFramework
         hasError |= await InitPageManager(param);
         hasError |= InitLocalization();
 
-        return hasError = true;
+        return hasError;
     }
 
-    private static async UniTask<bool> InitPackage()
+    private static UniTask<bool> InitPackage()
     {
-        return true;
+        return UniTask.FromResult(true);
     }
 
     private static bool InitLog()
