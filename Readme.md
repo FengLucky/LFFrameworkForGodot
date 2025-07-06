@@ -46,6 +46,7 @@ var bean = Tables.PageTable.GetOrDefault(1);
 - `DeferUnRegister` : 延迟一帧取消注册事件
 
 `AsyncEventSystem<T>` 异步实现的 `EventSystem<T>`
+
 `StaticEventSystem<T>` 静态实现的 `EventSystem<T>`
 ```csharp
 public enmu UIEvent
@@ -208,12 +209,14 @@ private void OnProcess(double delta)
 `PageManager` : 界面管理器单例
 - `Open` : 打开一个界面
 - `SetTheme` : 设置界面的根主题
+
 `PageHolder` : 一个界面的句柄，使用 `PageManager` 打开界面时会先生成一个 `PageHolder` 立即返回，然后异步加载界面资源
 - `GetPage<T>` : 获取 `UIPage` 界面实例
 - `SetArgs` : 设置界面参数,`UIPage` 如果已经打开会立即调用 `UIPage.RefreshArgs`,如果没有打开会保存到打开之后调用
 - `WaitOpen` : 等待界面打开
 - `WaitClose` : 等待界面关闭
 - `Close` : 关闭界面
+
 `UIPage` : 界面基类
 - `Close` : 关闭界面
 - `OnCreate` : 资源创建完毕后回调
