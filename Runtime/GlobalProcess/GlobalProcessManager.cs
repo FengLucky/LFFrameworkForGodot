@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using GDLog;
-using Godot;
 namespace LF;
 
 public class GlobalProcessManager:Manager<GlobalProcessManager>
@@ -31,15 +30,10 @@ public class GlobalProcessManager:Manager<GlobalProcessManager>
     protected override void OnInit()
     {
         base.OnInit();
-        var scriptRes = ResourceLoader.Load<CSharpScript>("res://addons/LFFramework/Runtime/GlobalProcess/ProcessRunner.cs");
-        var script = scriptRes.New();
-        if (script.Obj is ProcessRunner runner)
-        {
-            runner.Name = "GlobalProcessRunner";
-            runner.OnProcess += OnProcess;
-            runner.OnPhysicsProcess += OnPhysicsProcess;
-            (Engine.Singleton.GetMainLoop() as SceneTree)?.Root.CallDeferred("add_child",script);
-        }
+        var runner = new ProcessRunner();
+        runner.OnProcess += OnProcess;
+        runner.OnPhysicsProcess += OnPhysicsProcess;
+        LFFramework.AddLastingNode(runner);
     }
     
     public void AddProcess(IProcess process, int priority = 100)

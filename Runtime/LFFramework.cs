@@ -11,7 +11,7 @@ public class LFInitializationParam
     public string ThemePath;
 }
 
-public static class LFFramework
+public static partial class LFFramework
 {
     public static async UniTask<bool> Initialization(LFInitializationParam param = null)
     {
