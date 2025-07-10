@@ -8,7 +8,10 @@ namespace LF;
 
 public class LFInitializationParam
 {
-    public string ThemePath;
+    public string ThemePath { get; init; }
+    public float MinWindowAspect { get; init; } = 4f/3;
+    public float MaxWindowAspect { get; init; } = 21f/9;
+    public bool LockDefaultWindowAspect { get; init; } = true;
 }
 
 public static partial class LFFramework
@@ -22,6 +25,7 @@ public static partial class LFFramework
         hasError |= InitTables();
         hasError |= await InitPageManager(param);
         hasError |= InitLocalization();
+        hasError |= InitWindowAspectAdapter(param);
 
         return hasError;
     }
@@ -112,6 +116,21 @@ public static partial class LFFramework
         catch (Exception e)
         {
             GLog.Error($"本地化初始化失败:{e.Message}");
+        }
+        return false;
+    }
+
+    private static bool InitWindowAspectAdapter(LFInitializationParam param)
+    {
+        try
+        {
+            var adapter = new WindowAspectAdapter(param.MinWindowAspect, param.MaxWindowAspect, param.LockDefaultWindowAspect);
+            AddLastingNode(adapter);
+            return true;
+        }
+        catch (Exception e)
+        {
+            GLog.Error($"窗口比例适配器初始化失败:{e.Message}");
         }
         return false;
     }

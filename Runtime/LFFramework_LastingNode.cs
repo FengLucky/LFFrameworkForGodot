@@ -14,14 +14,18 @@ public partial class LFFramework
             GLog.Warn("添加了一个无效的 node");
             return;
         }
+        
+        node.Name = name ?? node.GetType().Name;
         if (_root == null)
         {
             _root = new Node();
             _root.Name = nameof(LFFramework);
             (Engine.Singleton.GetMainLoop() as SceneTree)?.Root.CallDeferred("add_child",_root);
+            _root.CallDeferred("add_child", node);
         }
-
-        node.Name = name ?? node.GetType().Name;
-        _root.AddChild(node);
+        else
+        {
+            _root.AddChild(node);
+        }
     }
 }
