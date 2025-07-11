@@ -20,8 +20,9 @@ public static partial class LFFramework
     {
         var hasError = false;
         param ??= new LFInitializationParam();
-        hasError |= await InitPackage();
         hasError |= InitLog();
+        hasError |= InitSettings();
+        hasError |= await InitPackage();
         hasError |= InitTables();
         hasError |= await InitPageManager(param);
         hasError |= InitLocalization();
@@ -30,9 +31,19 @@ public static partial class LFFramework
         return hasError;
     }
 
-    private static UniTask<bool> InitPackage()
+    private static bool InitSettings()
     {
-        return UniTask.FromResult(true);
+        try
+        {
+            Settings.Init();
+        }
+        catch (Exception e)
+        {
+            GLog.Error($"Settings 初始化失败:{e.Message}");
+            return false;
+        }
+
+        return true;
     }
 
     private static bool InitLog()
@@ -61,6 +72,11 @@ public static partial class LFFramework
 
         return false;
     }
+    
+    private static UniTask<bool> InitPackage()
+    {
+        return UniTask.FromResult(true);
+    }
 
     private static bool InitTables()
     {
@@ -82,7 +98,6 @@ public static partial class LFFramework
         try
         {
             PageManager.Instantiate();
-           
         }
         catch (Exception e)
         {

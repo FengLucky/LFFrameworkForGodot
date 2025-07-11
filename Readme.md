@@ -205,6 +205,9 @@ private void OnProcess(double delta)
 }
 ```
 
+## Settings
+对 `ConfigFile` 的一个静态实例包装
+
 ## UI 界面管理
 `PageManager` : 界面管理器单例
 - `Open` : 打开一个界面
