@@ -215,41 +215,41 @@ private void OnProcess(double delta)
 ```csharp
 public class Archive:ArchiveBase<Archive,SimpleArchive>
 {
-    [JsonInclude]
-    public DateTime ArchiveTime { get; private set; }
+	[JsonInclude]
+	public DateTime ArchiveTime { get; private set; }
 
-    protected override void OnSave()
-    {
-        base.OnSave();
-        ArchiveTime = DateTime.Now;
-    }
+	protected override void OnSave()
+	{
+		base.OnSave();
+		ArchiveTime = DateTime.Now;
+	}
 
-    protected override void FillSimpleData(SimpleArchive data)
-    {
-        data.FillData(this);
-    }
+	protected override void FillSimpleData(SimpleArchive data)
+	{
+		data.FillData(this);
+	}
 }
 
 public class SimpleArchive:SimpleArchiveBase
 {
-    [JsonInclude]
-    public DateTime ArchiveTime { get; private set; }
+	[JsonInclude]
+	public DateTime ArchiveTime { get; private set; }
 
-    public void FillData(Archive archive)
-    {
-        ArchiveTime = archive.ArchiveTime;
-    }
+	public void FillData(Archive archive)
+	{
+		ArchiveTime = archive.ArchiveTime;
+	}
 }
 
 if (Archive.HasArchive(0))
 {
-    // 从 0 号存档位加载存档
+	// 从 0 号存档位加载存档
 	Archive.LoadArchive(0);
 	GLog.Info("存档时间:"+Archive.Instance.ArchiveTime);
 }
 else
 {
-    // 创建一个新的存档
+	// 创建一个新的存档
 	Archive.CreateArchive();
 }
 
@@ -315,4 +315,19 @@ loadingPage.Close();
 - `Show` 显示一个提示信息
 ```csharp
 Toast.Show("提示信息");
+```
+
+## 确认对话框
+`ConfirmDialog` 静态工具类
+- `Show` 显示一个二次确认对话框
+`ConfirmDialogPage` 默认提供的简单对话框界面
+```csharp
+private async UniTaskVoid OnCloseRequest()
+{
+	var result = await ConfirmDialog.Show("退出确认", "是否退出游戏？");
+	if (result == ConfirmDialogResult.Ok)
+	{
+		GetTree().Quit();
+	}
+}
 ```
