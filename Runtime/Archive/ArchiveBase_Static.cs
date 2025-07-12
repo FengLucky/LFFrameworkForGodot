@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -56,7 +57,7 @@ public partial class ArchiveBase<T,ST>
 
     public static bool HasQuickArchive()
     {
-        return FileAccess.FileExists(QuickArchiveFile);
+        return FileAccess.FileExists(QuickArchiveFile) && FileAccess.FileExists(QuickArchiveSimpleFile);
     }
 
     /// <summary>
@@ -81,6 +82,64 @@ public partial class ArchiveBase<T,ST>
         };
         return Instance;
     }
+
+    /// <summary>
+    /// 删除指定存档
+    /// </summary>
+    /// <param name="index">存档位</param>
+    public static bool RemoveArchive(int index)
+    {
+        LoadList();
+        if (!ArchiveList.HasSection(index.ToString()))
+        {
+            return true;
+        }
+
+        try
+        {
+            var path = ArchiveList.GetValue(index.ToString(), ArchivePathKey).AsString();
+            var simplePath = ArchiveList.GetValue(index.ToString(), ArchiveSimplePathKey).AsString();
+            ArchiveList.EraseSection(index.ToString());
+            ArchiveList.Save(ArchiveListFile);
+            File.Delete(ProjectSettings.GlobalizePath(path));
+            File.Delete(ProjectSettings.GlobalizePath(simplePath));
+            return true;
+        }
+        catch (Exception e)
+        {
+            GLog.Exception(e);
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// 删除快速存档
+    /// </summary>
+    public static bool RemoveQuickArchive()
+    {
+        try
+        {
+            var path = ProjectSettings.GlobalizePath(QuickArchiveFile);
+            var simplePath = ProjectSettings.GlobalizePath(QuickArchiveSimpleFile);
+
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+            
+            if (File.Exists(simplePath))
+            {
+                File.Delete(simplePath);
+            }
+
+            return true;
+        }
+        catch (Exception e)
+        {
+            GLog.Exception(e);
+            return false;
+        }
+    }
     
     /// <summary>
     /// 从指定存档位加载或创建一个存档
@@ -104,6 +163,10 @@ public partial class ArchiveBase<T,ST>
     /// </summary>
     public static bool LoadQuickArchive()
     {
+        if (!HasQuickArchive())
+        {
+            return false;
+        }
         return LoadArchive(QuickArchiveFile);
     }
 
@@ -111,7 +174,7 @@ public partial class ArchiveBase<T,ST>
     {
         try
         {
-            if (!FileAccess.FileExists(QuickArchiveSimpleFile))
+            if (!HasQuickArchive())
             {
                 return null;
             }
