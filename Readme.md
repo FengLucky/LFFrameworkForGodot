@@ -208,6 +208,57 @@ private void OnProcess(double delta)
 ## Settings
 对 `ConfigFile` 的一个静态实例包装
 
+## 存档
+使用 `C#` 内置 `json` 实现的数据持久化功能
+- `ArchiveBase<T,ST>` 存档的基类, `T` 为存档数据类型, `ST` 为简单存档数据类型
+- `SimpleArchiveBase` 简单存单的基类,主要用于存档列表的显示
+```csharp
+public class Archive:ArchiveBase<Archive,SimpleArchive>
+{
+    [JsonInclude]
+    public DateTime ArchiveTime { get; private set; }
+
+    protected override void OnSave()
+    {
+        base.OnSave();
+        ArchiveTime = DateTime.Now;
+    }
+
+    protected override void FillSimpleData(SimpleArchive data)
+    {
+        data.FillData(this);
+    }
+}
+
+public class SimpleArchive:SimpleArchiveBase
+{
+    [JsonInclude]
+    public DateTime ArchiveTime { get; private set; }
+
+    public void FillData(Archive archive)
+    {
+        ArchiveTime = archive.ArchiveTime;
+    }
+}
+
+if (Archive.HasArchive(0))
+{
+    // 从 0 号存档位加载存档
+	Archive.LoadArchive(0);
+	GLog.Info("存档时间:"+Archive.Instance.ArchiveTime);
+}
+else
+{
+    // 创建一个新的存档
+	Archive.CreateArchive();
+}
+
+// 将当前存档保存到指定存档位
+// 注意：Archive.Instance 在加载或创建存档后才不为 null
+// 保存存档时会将 Archive.Instance 整个序列化为 json
+Archive.Instance.Save(0);
+```
+
 ## UI 界面管理
 `PageManager` : 界面管理器单例
 - `Open` : 打开一个界面
