@@ -28,4 +28,9 @@ public partial class LFFramework
             _root.AddChild(node);
         }
     }
+
+    public static void Quit()
+    {
+        _root.GetTree().Quit();
+    }
 }
