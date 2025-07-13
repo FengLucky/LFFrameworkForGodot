@@ -1,66 +1,94 @@
-﻿// using System;
-// using System.Collections.Generic;
-//
-// namespace LF;
-// public class UIList<TComponent, TData> where TComponent : UIMonoBehaviour, IUIListItem<TData>
-// {
-//     private readonly List<TComponent> _pool = new();
-//     private TComponent _template;
-//     private RectTransform _parent;
-//     public List<TComponent> ActiveList { get; } = new();
-//     public event Action<TComponent> OnNewItem;
-//
-//     public void Init(TComponent template, RectTransform parent = null)
-//     {
-//         if (!template)
-//         {
-//             Debug.LogError("template is null");
-//             return;
-//         }
-//
-//         _template = template;
-//         if (!parent)
-//         {
-//             parent = template.transform.parent as RectTransform;
-//         }
-//
-//         _parent = parent;
-//         template.SafeSetActive(false);
-//     }
-//
-//     public void Refresh(IList<TData> dataList)
-//     {
-//         for (int i = _pool.Count; i < dataList.Count; i++)
-//         {
-//             var item = Object.Instantiate(_template, _parent);
-//             OnNewItem.SafeInvoke(item);
-//             _pool.Add(item);
-//         }
-//
-//         ActiveList.Clear();
-//         for (int i = 0; i < dataList.Count; i++)
-//         {
-//             _pool[i].SafeSetActive(true);
-//             _pool[i].Refresh(dataList[i]);
-//             ActiveList.Add(_pool[i]);
-//         }
-//
-//         for (int i = dataList.Count; i < _pool.Count; i++)
-//         {
-//             _pool[i].SafeSetActive(false);
-//         }
-//     }
-//
-//     public TComponent Get(int index)
-//     {
-//         return ActiveList.TryGet(index);
-//     }
-//         
-//     public void Clear()
-//     {
-//         foreach (var component in _pool)
-//         {
-//             component.SafeSetActive(false);
-//         }
-//     }
-// }
+﻿using System;
+using System.Collections.Generic;
+using GDLog;
+using Godot;
+
+namespace LF;
+public class UIList<TItem, TData> where TItem : Control, IUIListItem<TData>
+{
+    private Control _template;
+    private Control _parent;
+    public List<TItem> ActiveItems { get; } = new();
+    public List<TItem> AllItems { get; } = new();
+    public event Action<TItem> OnNewItem;
+
+    public void Init(TItem template,Control parent = null)
+    {
+        _template = template;
+        _parent = parent;
+        if (template.GetTree() != null)
+        {
+            template.Visible = false;
+            if (parent == null)
+            {
+                _parent = template.GetParent() as Control;
+            }
+        }
+        
+        #if DEBUG
+        if (_parent == null)
+        {
+            GLog.Error($"UIList 没有设置 item 的 parent");
+        }
+        #endif
+    }
+    
+    public void Refresh(IList<TData> dataList)
+    {
+        if (dataList.IsNullOrEmpty())
+        {
+            Clear();
+            return;
+        }
+        for (int i = AllItems.Count; i < dataList.Count; i++)
+        {
+            try
+            {
+                var item = _template.Duplicate() as TItem;
+#if DEBUG
+                if (item == null)
+                {
+                    GLog.Error($"UIList 模板元素不是 {typeof(TItem)}");
+                    return;
+                }
+#endif
+                _parent.AddChild(item);
+                OnNewItem.SafeInvoke(item);
+                AllItems.Add(item);
+            }
+            catch (Exception e)
+            {
+                GLog.Exception(e);
+                return;
+            }
+        }
+    
+        ActiveItems.Clear();
+        for (int i = 0; i < dataList.Count; i++)
+        {
+            AllItems[i].Visible = true;
+            AllItems[i].Data = dataList[i];
+            AllItems[i].Refresh();
+            ActiveItems.Add(AllItems[i]);
+        }
+    
+        for (int i = dataList.Count; i < AllItems.Count; i++)
+        {
+            AllItems[i].Visible = false;
+        }
+    }
+    
+    public TItem Get(int index)
+    {
+        return ActiveItems.TryGet(index);
+    }
+        
+    public void Clear()
+    {
+        foreach (var item in AllItems)
+        {
+            item.Visible = false;
+        }
+        ActiveItems.Clear();
+    }
+}

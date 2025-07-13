@@ -76,10 +76,7 @@ public partial class ArchiveBase<T,ST>
     /// <returns></returns>
     public static T CreateArchive()
     {
-        Instance = new T
-        {
-            Guid = Guid.NewGuid(),
-        };
+        Instance = new T();
         return Instance;
     }
 
@@ -196,7 +193,7 @@ public partial class ArchiveBase<T,ST>
             foreach (var section in ArchiveList.GetSections())
             {
                 var path = ArchiveList.GetValue(section, ArchiveSimplePathKey).AsString();
-                list.Add(JsonSerializer.Deserialize<ST>(FileAccess.GetFileAsString(ArchiveRootPath + "/" + path)));
+                list.Add(JsonSerializer.Deserialize<ST>(FileAccess.GetFileAsString(path)));
             }
         }
         catch (Exception e)

@@ -1,5 +1,6 @@
 ﻿namespace LF;
 public interface IUIListItem<TData>
 {
-    void Refresh(TData data);
+    TData Data { get; set; }
+    void Refresh();
 }

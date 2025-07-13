@@ -8,8 +8,6 @@ namespace LF;
 
 public abstract partial class ArchiveBase<T,ST> where T:ArchiveBase<T,ST>,new() where ST:SimpleArchiveBase,new()
 {
-    protected Guid Guid { get; private set; }
-
     /// <summary>
     /// 保存存档
     /// </summary>
@@ -29,8 +27,9 @@ public abstract partial class ArchiveBase<T,ST> where T:ArchiveBase<T,ST>,new() 
             string archivePath,simplePath;
             if (!ArchiveList.HasSection(index.ToString()))
             {
-                archivePath = ArchiveRootPath + "/" + Guid + ".archive";
-                simplePath = ArchiveRootPath + "/" + Guid + ".simple";
+                var guid = Guid.NewGuid().ToString();
+                archivePath = ArchiveRootPath + "/" + guid + ".archive";
+                simplePath = ArchiveRootPath + "/" + guid + ".simple";
                 ArchiveList.SetValue(index.ToString(),ArchivePathKey,archivePath);
                 ArchiveList.SetValue(index.ToString(),ArchiveSimplePathKey,simplePath);
                 ArchiveList.Save(ArchiveListFile);

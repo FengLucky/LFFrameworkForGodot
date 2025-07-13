@@ -1,7 +1,10 @@
-﻿namespace LF;
+﻿using System.Text.Json.Serialization;
+
+namespace LF;
 
 public class SimpleArchiveBase 
 {
+    [JsonInclude]
     public int Index { get;private init; }
     public bool IsQuickArchive => Index < 0;
 
