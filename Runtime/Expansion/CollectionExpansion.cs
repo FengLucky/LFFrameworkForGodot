@@ -23,7 +23,7 @@ public static class CollectionExpansion
     {
         if (list.IsNullOrEmpty())
         {
-            return default;
+            return defaultValue;
         }
 
         return index >= 0 && index < list.Count ? list[index] : defaultValue;
