@@ -1,6 +1,7 @@
 @echo off
 cd /d %~dp0
 dotnet Luban\Luban.dll ^
+-p extend ^
 -t client ^
 --conf luban.conf ^
 --customTemplateDir Templates ^
@@ -9,9 +10,8 @@ dotnet Luban\Luban.dll ^
 -c cs-dotnet-json ^
 -d json ^
 -x outputDataDir=..\Data\Json ^
--d const-cs ^
--x const-cs.outputDataDir=..\Data\GenConst ^
--x tableImporter.name=lf ^
+-x cs-dotnet-json.const=csharp ^
+-x tableImporter.name=extend ^
 -x tableImporter.tableMeta=TableMeta.ini ^
 --validationFailAsError
 pause
